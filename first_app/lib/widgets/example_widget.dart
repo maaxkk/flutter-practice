@@ -388,7 +388,8 @@ class _ExampleN12State extends State<ExampleN12> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 4)).then((value) {
-      controller.animateTo(1000, duration: Duration(seconds: 1), curve: Curves.easeInOut);
+      controller.animateTo(1000,
+          duration: Duration(seconds: 1), curve: Curves.easeInOut);
     });
     // controller.addListener(() {
     //   print('${controller.position}');
@@ -415,57 +416,71 @@ class _ExampleN12State extends State<ExampleN12> {
   }
 }
 
-
 // ListView
 class ExampleN13 extends StatelessWidget {
   const ExampleN13({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(itemBuilder: (BuildContext context, int index) {
-      print('$index');
-      return Container(
-        color: index % 2 == 0 ? Colors.red : Colors.blue,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 200.0, bottom: 200.0),
-          child: Column(
-            children: [
-              Text('$index'),
-              BlackSquare(),
-            ],
-          ),
-        ),
-      );
-    });
-  }
-}
-
-class SmallContainer extends StatefulWidget {
-  const SmallContainer({super.key});
-
-  @override
-  State<SmallContainer> createState() => _SmallContainerState();
-}
-
-class _SmallContainerState extends State<SmallContainer> {
-
-  @override
-  void initState() {
-    super.initState();
-    print(2);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    print('1');
-
     return Container(
-      height: 10,
-      color: Colors.blue,
+      color: Colors.green,
+      child: ListView.separated(
+          itemCount: 100,
+          addAutomaticKeepAlives: false,
+          itemBuilder: (BuildContext context, int index) {
+            return SomeTextField(text: '$index');
+            // print('$index');
+            // return Container(
+            //   color: index % 2 == 0 ? Colors.red : Colors.blue,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
+            //     child: Column(
+            //       children: [
+            //         Text('$index'),
+            //         BlackSquare(),
+            //       ],
+            //     ),
+            //   ),
+            // );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Container(
+              height: 3,
+              color: Colors.black,
+            );
+          }),
     );
   }
 }
 
+class SomeTextField extends StatefulWidget {
+  final String text;
+
+  const SomeTextField({super.key, required this.text});
+
+  @override
+  State<SomeTextField> createState() => _SmallContainerState();
+}
+
+class _SmallContainerState extends State<SomeTextField> with AutomaticKeepAliveClientMixin {
+  late final controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
 
 class BlackSquare extends StatelessWidget {
   const BlackSquare({super.key});
@@ -479,4 +494,3 @@ class BlackSquare extends StatelessWidget {
     );
   }
 }
-

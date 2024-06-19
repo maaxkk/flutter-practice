@@ -9,11 +9,22 @@ class UserProfile extends StatelessWidget {
   ];
 
   final List<MenuWidgetData> secondMenuRow = [
-    MenuWidgetData('Notifications and sounds', Icons.notifications_active_outlined),
+    MenuWidgetData(
+        'Notifications and sounds', Icons.notifications_active_outlined),
     MenuWidgetData('Data and memory', Icons.memory),
     MenuWidgetData('Privacy', Icons.privacy_tip_outlined),
     MenuWidgetData('Decor', Icons.brush),
     MenuWidgetData('Language', Icons.language),
+    MenuWidgetData('Stickers', Icons.sticky_note_2_outlined),
+  ];
+
+  final List<MenuWidgetData> thirdMenuRow = [
+    MenuWidgetData('Apple Watch', Icons.watch),
+  ];
+
+  final List<MenuWidgetData> fourthMenuRow = [
+    MenuWidgetData('Help', Icons.help_outline),
+    MenuWidgetData('Questions about Telegram', Icons.question_answer_outlined),
   ];
 
   @override
@@ -31,17 +42,17 @@ class UserProfile extends StatelessWidget {
       ),
       body: Container(
         width: double.infinity,
-        child: Column(
+        child: ListView(
           children: [
-            Column(
-              children: [
-                _UserInfoWidget(),
-              ],
-            ),
+            _UserInfoWidget(),
             SizedBox(height: 20),
             _MenuWidget(menuRow: menuRow),
             SizedBox(height: 20),
             _MenuWidget(menuRow: secondMenuRow),
+            SizedBox(height: 20),
+            _MenuWidget(menuRow: thirdMenuRow),
+            SizedBox(height: 20),
+            _MenuWidget(menuRow: fourthMenuRow),
           ],
         ),
       ),
@@ -52,9 +63,7 @@ class UserProfile extends StatelessWidget {
 class _MenuWidget extends StatelessWidget {
   final List<MenuWidgetData> menuRow;
 
-  const _MenuWidget({
-    super.key, required this.menuRow
-  });
+  const _MenuWidget({super.key, required this.menuRow});
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +86,7 @@ class MenuWidgetData {
 class _MenuWidgetRow extends StatelessWidget {
   final MenuWidgetData data;
 
-  const _MenuWidgetRow({
-    super.key, required this.data
-  });
+  const _MenuWidgetRow({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -112,21 +119,36 @@ class _UserInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      width: double.infinity,
-      child: Column(
-        children: [
-          SizedBox(height: 30),
-          _AvatarWidget(),
-          SizedBox(height: 10),
-          _UserNameWidget(),
-          SizedBox(height: 10),
-          _UserPhoneWidget(),
-          SizedBox(height: 10),
-          UserNicknameWidget(),
-        ],
-      ),
+    return Stack(
+      children: [
+        Container(
+          color: Colors.white,
+          width: double.infinity,
+          child: Column(
+            children: [
+              SizedBox(height: 30),
+              _AvatarWidget(),
+              SizedBox(height: 10),
+              _UserNameWidget(),
+              SizedBox(height: 10),
+              _UserPhoneWidget(),
+              SizedBox(height: 10),
+              UserNicknameWidget(),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 25,
+          right: 25,
+          child: Text(
+            'Ch.',
+            style: TextStyle(
+              color: Colors.blue,
+              fontSize: 17,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
