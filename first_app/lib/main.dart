@@ -1,5 +1,7 @@
 import 'package:first_app/widgets/buttons.dart';
 import 'package:first_app/widgets/example_widget.dart';
+import 'package:first_app/widgets/learn_textField.dart';
+import 'package:first_app/widgets/learn_textField2.dart';
 import 'package:first_app/widgets/simple_widget.dart';
 import 'package:first_app/widgets/user_profile.dart';
 import 'package:flutter/material.dart';
@@ -14,5 +16,10 @@ void main() {
   // With scaffold
   // runApp(MaterialApp(home: Scaffold(body: ExampleWidget())));
 
-  runApp(MaterialApp(home: Scaffold(body: Buttons())));
+  // runApp(MaterialApp(home: Scaffold(body: Buttons())));
+
+  // runApp(MaterialApp(home: Scaffold(body: LearnTextfield())));
+
+  runApp(MaterialApp(home: Scaffold(body: LearnTextfield2())));
+
 }
