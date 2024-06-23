@@ -1,3 +1,4 @@
+import 'package:ecoludeco/menu_list/menu_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class MainPageWidget extends StatefulWidget {
@@ -10,13 +11,14 @@ class MainPageWidget extends StatefulWidget {
 class _MainPageWidgetState extends State<MainPageWidget> {
   int _selectedTab = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Shop'),
+  static final List<Widget> _widgetOptions = <Widget>[
+    MenuListWidget(),
     Text('Blog'),
     Text('Profile'),
   ];
 
   void onSelectTab(int index) {
+    if (_selectedTab == index) return;
     setState(() {
       _selectedTab = index;
     });
@@ -35,7 +37,13 @@ class _MainPageWidgetState extends State<MainPageWidget> {
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Center(child: _widgetOptions[_selectedTab]),
+      // body: Center(child: _widgetOptions[_selectedTab]),
+      body: Center(
+        child: IndexedStack(
+          children: _widgetOptions,
+          index: _selectedTab,
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedTab,
         items: const [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/widgets/Theme/app_colors.dart';
+import 'package:themoviedb/widgets/movie_list/movie_list_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({super.key});
@@ -11,9 +12,9 @@ class MainScreenWidget extends StatefulWidget {
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 0;
 
-  static const List<Widget> _widgetOptions = <Widget> [
+  static final List<Widget> _widgetOptions = <Widget> [
     Text('News'),
-    Text('Films'),
+    MovieListWidget(),
     Text('Series'),
   ];
 
@@ -37,7 +38,11 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         ),
         centerTitle: true,
       ),
-      body: Center(child: _widgetOptions[_selectedTab]),
+      // body: Center(child: _widgetOptions[_selectedTab]),
+      body: IndexedStack(
+        index: _selectedTab,
+        children: _widgetOptions
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedTab,
         items: const [

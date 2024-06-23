@@ -77,6 +77,7 @@ class _LearnTextfield2State extends State<LearnTextfield2> {
             // child: Text('Click'),
             // ),
             TextField(
+              maxLength: 15,
               inputFormatters: [
                 // FilteringTextInputFormatter.digitsOnly,
                 // FilteringTextInputFormatter.allow(RegExp(r'[r,t,y]'))

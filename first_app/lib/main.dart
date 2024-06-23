@@ -1,9 +1,11 @@
-import 'package:first_app/widgets/buttons.dart';
-import 'package:first_app/widgets/example_widget.dart';
-import 'package:first_app/widgets/learn_textField.dart';
-import 'package:first_app/widgets/learn_textField2.dart';
-import 'package:first_app/widgets/simple_widget.dart';
-import 'package:first_app/widgets/user_profile.dart';
+import 'package:first_app/widgets/ImagesWidget.dart';
+import 'package:first_app/widgets/loader_widget.dart';
+// import 'package:first_app/widgets/buttons.dart';
+// import 'package:first_app/widgets/example_widget.dart';
+// import 'package:first_app/widgets/learn_textField.dart';
+// import 'package:first_app/widgets/learn_textField2.dart';
+// import 'package:first_app/widgets/simple_widget.dart';
+// import 'package:first_app/widgets/user_profile.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,6 +22,9 @@ void main() {
 
   // runApp(MaterialApp(home: Scaffold(body: LearnTextfield())));
 
-  runApp(MaterialApp(home: Scaffold(body: LearnTextfield2())));
+  // runApp(MaterialApp(home: Scaffold(body: LearnTextfield2())));
 
+  // runApp(MaterialApp(home: Scaffold(body: ImagesWidget())));
+
+  runApp(MaterialApp(home: Scaffold(body: LoaderWidget())));
 }
