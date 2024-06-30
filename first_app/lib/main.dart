@@ -1,5 +1,6 @@
 import 'package:first_app/widgets/ImagesWidget.dart';
 import 'package:first_app/widgets/loader_widget.dart';
+import 'package:first_app/widgets/stateless_full.dart';
 // import 'package:first_app/widgets/buttons.dart';
 // import 'package:first_app/widgets/example_widget.dart';
 // import 'package:first_app/widgets/learn_textField.dart';
@@ -26,5 +27,7 @@ void main() {
 
   // runApp(MaterialApp(home: Scaffold(body: ImagesWidget())));
 
-  runApp(MaterialApp(home: Scaffold(body: LoaderWidget())));
+  // runApp(MaterialApp(home: Scaffold(body: LoaderWidget())));
+
+  runApp(const MaterialApp(home: Scaffold(body: ExampleStateless())));
 }

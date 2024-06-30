@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
 
 class Movie {
+  final int id;
   final String imageName;
   final String title;
   final String time;
   final String description;
 
-  Movie(
-      {required this.imageName,
-      required this.title,
-      required this.time,
-      required this.description});
+  Movie({
+    required this.id,
+    required this.title,
+    required this.imageName,
+    required this.time,
+    required this.description,
+  });
 }
 
 class MovieListWidget extends StatefulWidget {
@@ -24,6 +27,7 @@ class MovieListWidget extends StatefulWidget {
 class _MovieListWidgetState extends State<MovieListWidget> {
   final _movies = [
     Movie(
+      id: 1,
       imageName: MyAppImages.plus1,
       title: 'The Intouchables',
       time: 'February 11, 2011',
@@ -31,6 +35,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           'A true story of two men who should never have met – a quadriplegic aristocrat who was injured in a paragliding accident and a young man from the projects.',
     ),
     Movie(
+      id: 2,
       imageName: MyAppImages.plus1,
       title: 'IF',
       time: 'May 08, 2024',
@@ -38,6 +43,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           'A true story of two men who should never have met – a quadriplegic aristocrat who was injured in a paragliding accident and a young man from the projects.',
     ),
     Movie(
+      id: 3,
       imageName: MyAppImages.plus1,
       title: 'Civil War',
       time: 'February 11, 2011',
@@ -45,6 +51,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           'A true story of two men who should never have met – a quadriplegic aristocrat who was injured in a paragliding accident and a young man from the projects.',
     ),
     Movie(
+      id: 4,
       imageName: MyAppImages.plus1,
       title: 'The Last Kumite',
       time: 'February 11, 2011',
@@ -52,6 +59,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           'A true story of two men who should never have met – a quadriplegic aristocrat who was injured in a paragliding accident and a young man from the projects.',
     ),
     Movie(
+      id: 5,
       imageName: MyAppImages.plus1,
       title: 'Ultraman:rising',
       time: 'February 11, 2011',
@@ -59,6 +67,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           'A true story of two men who should never have met – a quadriplegic aristocrat who was injured in a paragliding accident and a young man from the projects.',
     ),
     Movie(
+      id: 6,
       imageName: MyAppImages.plus1,
       title: 'Tarot',
       time: 'February 11, 2011',
@@ -66,6 +75,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           'A true story of two men who should never have met – a quadriplegic aristocrat who was injured in a paragliding accident and a young man from the projects.',
     ),
     Movie(
+      id: 7,
       imageName: MyAppImages.plus1,
       title: 'Bad Boys for Life',
       time: 'February 11, 2011',
@@ -73,6 +83,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           'A true story of two men who should never have met – a quadriplegic aristocrat who was injured in a paragliding accident and a young man from the projects.',
     ),
     Movie(
+      id: 8,
       imageName: MyAppImages.plus1,
       title: 'The Fall Guy',
       time: 'February 11, 2011',
@@ -80,6 +91,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           'A true story of two men who should never have met – a quadriplegic aristocrat who was injured in a paragliding accident and a young man from the projects.',
     ),
     Movie(
+      id: 9,
       imageName: MyAppImages.plus1,
       title: 'Dune: Part Two',
       time: 'February 11, 2011',
@@ -109,6 +121,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
     super.initState();
     _searchMovies();
     _searchController.addListener(_searchMovies);
+  }
+
+  void _onMovieTap(int index) {
+    final id = _movies[index].id;
+    Navigator.of(context).pushNamed(
+      '/main_screen/movie_details',
+      arguments: id,
+    );
   }
 
   @override
@@ -193,9 +213,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10.0),
-                      onTap: () {
-                        print(11);
-                      },
+                      onTap: () => _onMovieTap(index),
                     ),
                   ),
                 ],
