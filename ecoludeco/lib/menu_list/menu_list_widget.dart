@@ -212,6 +212,10 @@ class _MenuListWidgetState extends State<MenuListWidget> {
     setState(() {});
   }
 
+  void _openCandleDetails() {
+    Navigator.of(context).pushNamed('/main_screen/candle_details');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -289,9 +293,7 @@ class _MenuListWidgetState extends State<MenuListWidget> {
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {
-                        print('hola');
-                      },
+                      onTap: _openCandleDetails,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),

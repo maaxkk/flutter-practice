@@ -1,6 +1,7 @@
 import 'package:ecoludeco/Theme/main_page_widget.dart';
 import 'package:ecoludeco/Theme/theme_colors.dart';
 import 'package:ecoludeco/auth/auth_widget.dart';
+import 'package:ecoludeco/candle_details/candle_details_widget.dart';
 import 'package:ecoludeco/my_app_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => const AuthWidget(),
         '/main_screen': (context) => const MainPageWidget(),
+        '/main_screen/candle_details': (context) => const CandleDetailsWidget(),
       },
       initialRoute: '/main_screen',
       onGenerateRoute: (RouteSettings settings) {

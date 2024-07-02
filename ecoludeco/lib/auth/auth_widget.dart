@@ -99,7 +99,9 @@ class _FormWidgetState extends State<_FormWidget> {
             errorText,
             style: TextStyle(color: Colors.red, fontSize: 17),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
         ],
         const Text('Username'),
         const SizedBox(
