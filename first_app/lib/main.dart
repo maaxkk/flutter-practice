@@ -1,6 +1,9 @@
 import 'package:first_app/widgets/ImagesWidget.dart';
 import 'package:first_app/widgets/global_key_exampe_widget.dart';
+import 'package:first_app/widgets/inherit/example.dart';
+import 'package:first_app/widgets/inherit/inherited_communicate_widgets_start.dart';
 import 'package:first_app/widgets/keys_example_widget.dart';
+import 'package:first_app/widgets/learn_context_widget.dart';
 import 'package:first_app/widgets/loader_widget.dart';
 import 'package:first_app/widgets/reorder_widgets.dart';
 import 'package:first_app/widgets/stateless_full.dart';
@@ -36,5 +39,11 @@ void main() {
 
   // runApp(const MaterialApp(home: Scaffold(body: KeysExampleWidget())));
 
-  runApp(MaterialApp(home: Scaffold(body: GlobalKeyExampeWidget())));
+  // runApp(MaterialApp(home: Scaffold(body: GlobalKeyExampeWidget())));
+
+  // runApp(MaterialApp(home: Scaffold(body: LearnContextWidget())));
+
+  // runApp(MaterialApp(home: Scaffold(body: InheritExampleWidget())));
+
+  runApp(MaterialApp(home: Scaffold(body: InheritedCommunicateExample())));
 }

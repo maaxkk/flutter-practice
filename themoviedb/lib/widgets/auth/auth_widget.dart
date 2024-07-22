@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/widgets/Theme/app_button_style.dart';
+import 'package:themoviedb/widgets/auth/auth_model.dart';
 
-class AuthWidget extends StatefulWidget {
+class AuthWidget extends StatelessWidget {
   const AuthWidget({super.key});
 
-  @override
-  State<AuthWidget> createState() => _AuthWidgetState();
-}
-
-class _AuthWidgetState extends State<AuthWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +16,8 @@ class _AuthWidgetState extends State<AuthWidget> {
         centerTitle: true,
       ),
       body: ListView(
-        children: [
-          const _HeaderWidget(),
+        children: const [
+          _HeaderWidget(),
         ],
       ),
     );
@@ -68,40 +64,24 @@ class _HeaderWidget extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          const _FormWidget(),
+          _FormWidget(),
         ],
       ),
     );
   }
 }
 
-class _FormWidget extends StatefulWidget {
-  const _FormWidget({super.key});
+class _FormWidget extends StatelessWidget {
+  _FormWidget({super.key});
 
-  @override
-  State<_FormWidget> createState() => _FormWidgetState();
-}
+  final loginTextController = TextEditingController(text: 'admin');
+  final passwordTextController = TextEditingController(text: 'admin');
 
-class _FormWidgetState extends State<_FormWidget> {
-  final _loginTextController = TextEditingController(text: 'admin');
-  final _passwordTextController = TextEditingController(text: 'admin');
-  String? errorText;
+  String? _errorMessage;
 
-  void _auth() {
-    final login = _loginTextController.text;
-    final password = _passwordTextController.text;
-    if (login == 'admin' && password == 'admin') {
-      errorText = null;
-      Navigator.of(context).pushReplacementNamed('/main_screen');
-    } else {
-      errorText = 'Login or password or both are incorrect';
-    }
-    setState(() {});
-  }
+  String? get errorMessage => _errorMessage;
 
-  void _resetPassword() {
-    print('reset password');
-  }
+  Future<void> auth(BuildContext context) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -118,19 +98,12 @@ class _FormWidgetState extends State<_FormWidget> {
         borderSide: BorderSide(color: Color(0xff01b4e4), width: 2),
       ),
     );
-    final errorText = this.errorText;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (errorText != null) ...[
-          Text(
-            errorText,
-            style: const TextStyle(
-              color: Colors.red,
-              fontSize: 17,
-            ),
-          ),
-        const SizedBox(height: 20),],
+        if (errorMessage != null) ...[
+          _ErrorMessageWidget(errorMessage: _errorMessage),
+        ],
         const Text(
           'Username',
           style: textStyle,
@@ -140,7 +113,7 @@ class _FormWidgetState extends State<_FormWidget> {
         ),
         TextField(
           decoration: textFieldDecorator,
-          controller: _loginTextController,
+          controller: loginTextController,
         ),
         const SizedBox(
           height: 20,
@@ -155,7 +128,7 @@ class _FormWidgetState extends State<_FormWidget> {
         TextField(
           decoration: textFieldDecorator,
           obscureText: true,
-          controller: _passwordTextController,
+          controller: passwordTextController,
         ),
         const SizedBox(
           height: 25,
@@ -163,11 +136,12 @@ class _FormWidgetState extends State<_FormWidget> {
         Row(
           children: [
             ElevatedButton(
-              onPressed: _auth,
+              onPressed: () {},
               style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(color),
                   foregroundColor: WidgetStateProperty.all(Colors.white),
-                  textStyle: WidgetStateProperty.all(const TextStyle(fontSize: 16)),
+                  textStyle:
+                      WidgetStateProperty.all(const TextStyle(fontSize: 16)),
                   shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6.0),
@@ -182,13 +156,40 @@ class _FormWidgetState extends State<_FormWidget> {
               width: 30,
             ),
             TextButton(
-              onPressed: _resetPassword,
+              onPressed: () {},
               style: AppButtonStyle.linkButton,
               child: const Text('Reset password'),
             ),
           ],
         ),
       ],
+    );
+  }
+}
+
+class _ErrorMessageWidget extends StatelessWidget {
+  const _ErrorMessageWidget({
+    super.key,
+    required String? errorMessage,
+  }) : _errorMessage = errorMessage;
+
+  final String? _errorMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    final errorMessage = AuthProvider.watch(context).model.errorMessage;
+    if (errorMessage == null) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Text(
+        errorMessage,
+        style: const TextStyle(
+          color: Colors.red,
+          fontSize: 17,
+        ),
+      ),
     );
   }
 }

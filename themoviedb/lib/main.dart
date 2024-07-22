@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/widgets/Theme/app_colors.dart';
+import 'package:themoviedb/widgets/auth/auth_model.dart';
 import 'package:themoviedb/widgets/auth/auth_widget.dart';
 import 'package:themoviedb/widgets/main_screen/main_screen_widget.dart';
 import 'package:themoviedb/widgets/movie_details/movie_details_widget.dart';
@@ -18,13 +19,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: const AppBarTheme(backgroundColor: AppColors.mainDarkBlue),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: AppColors.mainDarkBlue,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey
-        ),
+            backgroundColor: AppColors.mainDarkBlue,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.grey),
       ),
       routes: {
-        '/': (context) => const AuthWidget(),
+        '/': (context) => AuthProvider(
+              model: AuthModel(),
+              child: const AuthWidget(),
+            ),
         '/main_screen': (context) => const MainScreenWidget(),
         '/main_screen/movie_details': (context) {
           final arguments = ModalRoute.of(context)?.settings.arguments;
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
           }
         },
       },
-      initialRoute: '/main_screen/movie_details',
+      initialRoute: '/',
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute(builder: (context) {
           return const Scaffold(

@@ -30,7 +30,18 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => const AuthWidget(),
         '/main_screen': (context) => const MainPageWidget(),
-        '/main_screen/candle_details': (context) => const CandleDetailsWidget(),
+        '/main_screen/candle_details': (context) {
+          final id = ModalRoute.of(context)!.settings.arguments;
+          if (id is int) {
+            return CandleDetailsWidget(candleId: id);
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: Text('404 error'),
+              ),
+            );
+          }
+        }
       },
       initialRoute: '/main_screen',
       onGenerateRoute: (RouteSettings settings) {
