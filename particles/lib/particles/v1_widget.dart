@@ -107,7 +107,7 @@ class _ParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (var particle in particles) {
-      particle.setPosition(particle.x * size.width, particle.y * size.height);
+      // particle.setPosition(particle.x * size.width, particle.y * size.height);
       // canvas.drawCircle(
       //   Offset(particle.x, particle.y),
       //   8,

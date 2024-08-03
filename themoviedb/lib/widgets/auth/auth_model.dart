@@ -1,9 +1,54 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
+import 'package:themoviedb/domain/api_client/api_client.dart';
+import 'package:themoviedb/domain/data_providers/session_data_provider.dart';
 
 class AuthModel extends ChangeNotifier {
-  final String? errorMessage;
+  final _apiClient = ApiClient();
+  final _sessionDataProvider = SessionDataProvider();
+  final loginTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
 
-  AuthModel();
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  bool _isAuthInProgress = false;
+  bool get isAuthInProgress => _isAuthInProgress;
+  bool get canStartAuth => !_isAuthInProgress;
+
+  Future<void> auth(BuildContext context) async {
+    final login = loginTextController.text;
+    final password = passwordTextController.text;
+    if (login.isEmpty || password.isEmpty) {
+      _errorMessage = 'Enter password and login';
+      notifyListeners();
+      return;
+    }
+    _errorMessage = null;
+    _isAuthInProgress = true;
+    notifyListeners();
+    String? sessionId;
+    try {
+      sessionId = await _apiClient.auth(username: login, password: password);
+    } catch (error) {
+      _errorMessage = 'Incorrect password and email';
+    }
+    _isAuthInProgress = false;
+    if (_errorMessage != null) {
+      notifyListeners();
+      return;
+    }
+
+    if (sessionId == null) {
+      _errorMessage = 'Unknown error, try again';
+      notifyListeners();
+      return;
+    }
+
+    _sessionDataProvider.setSessionId(sessionId);
+    unawaited(Navigator.of(context).pushNamed('/main_screen'));
+  }
 }
 
 class AuthProvider extends InheritedNotifier {
@@ -14,7 +59,7 @@ class AuthProvider extends InheritedNotifier {
     required this.model,
   }) : super(child: child, notifier: model);
 
-  static AuthProvider watch(BuildContext context) {
+  static AuthProvider? watch(BuildContext context) {
     final AuthProvider? result = context.dependOnInheritedWidgetOfExactType<AuthProvider>();
     assert(result != null, 'No AuthProvider found in context');
     return result!;

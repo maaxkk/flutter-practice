@@ -6,7 +6,7 @@ import 'package:particles/particles/v2_widget.dart';
 
 
 void main() {
-  runApp(SimpleParticleSystem(200, 100));
-  // runApp(MyApp());
+  // runApp(SimpleParticleSystem(200, 100));
+  runApp(MyApp());
 }
 

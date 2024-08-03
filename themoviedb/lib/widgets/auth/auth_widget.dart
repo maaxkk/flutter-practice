@@ -38,6 +38,10 @@ class _HeaderWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(
+            height: 25,
+          ),
+          _FormWidget(),
           const SizedBox(height: 25),
           const Text(
             'In order to use the editing and rating capabilities of TMDB, '
@@ -61,10 +65,6 @@ class _HeaderWidget extends StatelessWidget {
             style: AppButtonStyle.linkButton,
             child: const Text('Verify'),
           ),
-          const SizedBox(
-            height: 25,
-          ),
-          _FormWidget(),
         ],
       ),
     );
@@ -74,17 +74,11 @@ class _HeaderWidget extends StatelessWidget {
 class _FormWidget extends StatelessWidget {
   _FormWidget({super.key});
 
-  final loginTextController = TextEditingController(text: 'admin');
-  final passwordTextController = TextEditingController(text: 'admin');
-
-  String? _errorMessage;
-
-  String? get errorMessage => _errorMessage;
-
   Future<void> auth(BuildContext context) async {}
 
   @override
   Widget build(BuildContext context) {
+    final model = AuthProvider.watch(context)?.model;
     const textStyle = TextStyle(
       fontSize: 16,
       color: Color(0xff212529),
@@ -101,8 +95,8 @@ class _FormWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (errorMessage != null) ...[
-          _ErrorMessageWidget(errorMessage: _errorMessage),
+        if (model?.errorMessage != null) ...[
+          _ErrorMessageWidget(errorMessage: model?.errorMessage),
         ],
         const Text(
           'Username',
@@ -113,7 +107,7 @@ class _FormWidget extends StatelessWidget {
         ),
         TextField(
           decoration: textFieldDecorator,
-          controller: loginTextController,
+          controller: model?.loginTextController,
         ),
         const SizedBox(
           height: 20,
@@ -128,30 +122,14 @@ class _FormWidget extends StatelessWidget {
         TextField(
           decoration: textFieldDecorator,
           obscureText: true,
-          controller: passwordTextController,
+          controller: model?.passwordTextController,
         ),
         const SizedBox(
           height: 25,
         ),
         Row(
           children: [
-            ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all(color),
-                  foregroundColor: WidgetStateProperty.all(Colors.white),
-                  textStyle:
-                      WidgetStateProperty.all(const TextStyle(fontSize: 16)),
-                  shape: WidgetStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0),
-                    ),
-                  ),
-                  padding: WidgetStateProperty.all(
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                  )),
-              child: const Text('Login'),
-            ),
+            _AuthButtonWidget(model: model, color: color),
             const SizedBox(
               width: 30,
             ),
@@ -167,17 +145,55 @@ class _FormWidget extends StatelessWidget {
   }
 }
 
+class _AuthButtonWidget extends StatelessWidget {
+  const _AuthButtonWidget({
+    super.key,
+    required this.model,
+    required this.color,
+  });
+
+  final AuthModel? model;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final onPressed =
+        model?.canStartAuth == true ? () => model?.auth(context) : null;
+    final child = model?.isAuthInProgress == true
+        ? const SizedBox(
+            height: 15,
+            width: 15,
+            child: const CircularProgressIndicator(strokeWidth: 2),
+          )
+        : const Text('Login');
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(color),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+          textStyle: WidgetStateProperty.all(const TextStyle(fontSize: 16)),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+          ),
+          padding: WidgetStateProperty.all(
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+          )),
+      child: child,
+    );
+  }
+}
+
 class _ErrorMessageWidget extends StatelessWidget {
   const _ErrorMessageWidget({
     super.key,
     required String? errorMessage,
-  }) : _errorMessage = errorMessage;
-
-  final String? _errorMessage;
+  });
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage = AuthProvider.watch(context).model.errorMessage;
+    final errorMessage = AuthProvider.read(context)?.model.errorMessage;
     if (errorMessage == null) {
       return const SizedBox.shrink();
     }
